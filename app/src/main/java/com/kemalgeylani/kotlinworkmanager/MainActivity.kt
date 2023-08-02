@@ -6,6 +6,8 @@ import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import java.util.concurrent.TimeUnit
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             .setRequiresCharging(false)
             .build()
 
+        /*
         val workRequest : WorkRequest = OneTimeWorkRequestBuilder<RefreshDatabase>()
             .setConstraints(constraints)
             .setInputData(data)
@@ -36,6 +39,16 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         WorkManager.getInstance(this).enqueue(workRequest)
+        */
+
+        val periodicWorkRequest : WorkRequest = PeriodicWorkRequestBuilder<RefreshDatabase>(15,TimeUnit.MINUTES)
+            .setInputData(data)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(periodicWorkRequest)
+
+        //Gözlemleme
 
     }
 }
